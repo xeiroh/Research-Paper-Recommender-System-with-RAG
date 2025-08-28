@@ -37,7 +37,7 @@ def llm_explain(query, items):
 
     context = "\n\n".join(rows)
 
-    # NOTE: This is a system prompt I generated with GPT-4; it doesn't need to be this elaborate.
+    # NOTE: This is a system prompt I generated with GPT-4 and changed some parts to my liking; it doesn't need to be this elaborate.
     system_prompt = """You are an expert explainer for a NON-INTERACTIVE paper list.
 
 INPUT
