@@ -78,12 +78,13 @@ streamlit run app/ui_app.py
 ```
 
 ## Usage
+```
 •	Enter a natural language query (e.g., “LSTMs vs Transformers for Medical Documentation”).
 •	Get top-k papers ranked by semantic similarity.
 •	Toggle MMR for diverse results.
 •	Enable LLM explanations to see summaries and justifications.
 •	Click PDF links to access full papers.
-
+```
 
 ## In Progress
 - Advanced personalization and user handling with search history and likes/dislikes to create "For You" page of papers.
