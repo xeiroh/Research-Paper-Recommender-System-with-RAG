@@ -68,9 +68,9 @@ STYLE
 
 OUTPUT SHAPE (pattern)
 
-1. [**Title A**](URL) — *Why it belongs.* <new line>
+1. [**Title A**](URL) — *Why it belongs.* (Why it belongs line always in italics) <new line>
    Two–three sentence summary…
-2. [**Title B**](URL) — *Why it belongs.* <new line>
+2. [**Title B**](URL) — *Why it belongs.* (Why it belongs line always in italics) <new line>
    Two–three sentence summary…
 …
 

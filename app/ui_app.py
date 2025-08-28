@@ -52,7 +52,7 @@ def render_results(items: List[Dict], explanation):
 					if pdf_file is None:
 						st.error("Invalid PDF File; try the link instead.")
 					else:
-						pdf_viewer(pdf_file, width="50%", height=1200)
+						pdf_viewer(pdf_file, width="50%", height=600)
 				else:
 					st.warning("Install streamlit-pdf-viewer to view PDFs inline: pip install streamlit-pdf-viewer")
 					if url_pdf:
