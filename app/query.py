@@ -8,15 +8,15 @@ import numpy as np
 import os
 
 
-def search(query: str, top_k: int = 5, index=None, filename="faiss_index.index", use_mmr=True, llm=True, user=None):
+def search(query: str, top_k: int = 5, index=None, filename="faiss_index.index", use_mmr=True, fetch_k = 25, llm=True, user=None):
 	q_embedding = get_query_embedding(query)
 	df, embeddings, faiss_index = get_lookup_table(index=index, filename=filename)
 	
-	D, I = faiss_index.search(np.array([q_embedding], dtype=np.float32), top_k)
+	D, I = faiss_index.search(np.array([q_embedding], dtype=np.float32), fetch_k if use_mmr else top_k)
 	if use_mmr:
 		print("MMR Re-ranking Candidates...")
 		selected_idx = mmr(q_embedding, embeddings[I[0]], top_k=top_k)
-		I[0] = I[0][selected_idx]
+		I = I[:, selected_idx]
 
 	results = []
 	for idx in I[0]:

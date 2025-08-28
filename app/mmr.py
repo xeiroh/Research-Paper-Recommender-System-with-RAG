@@ -5,16 +5,16 @@ def l2_normalize(x, axis=1, eps=1e-12):
     norm = np.maximum(norm, eps)
     return x / norm
 
-def maximal_marginal_relevance(query_vec, doc_vecs, lambda_param=0.7, top_k=5, fetch_k=20):
+def maximal_marginal_relevance(query_vec, doc_vecs, lambda_param=0.7, top_k=5):
     """
-    Vectorized MMR that is typically much faster for medium/large candidate sets.
+    Vectorized MMR.
 
     Args:
         query_vec: np.ndarray of shape (d,)
         doc_vecs: np.ndarray of shape (n, d)
         lambda_param: float between 0 and 1
         top_k: number of results to return
-        fetch_k: number of initial candidates to consider
+        fetch_k (not a parameter explicity) = n (number of documents passed in from search)
     Returns:
         indices of selected documents in doc_vecs
     """
@@ -31,13 +31,8 @@ def maximal_marginal_relevance(query_vec, doc_vecs, lambda_param=0.7, top_k=5, f
     # Cosine similarity to query (n,)
     sim_q = (X @ q.T).ravel()
 
-    fk = min(fetch_k, n)
-    if fk <= 0:
-        return []
-    if fk < n:
-        cand_idx = np.argpartition(-sim_q, fk - 1)[:fk]
-    else:
-        cand_idx = np.arange(n)
+    fk = n
+    cand_idx = np.arange(n)
 
     # Work in the candidate subspace
     C = X[cand_idx]                   
