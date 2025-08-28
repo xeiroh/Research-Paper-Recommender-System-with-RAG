@@ -8,7 +8,7 @@ An interactive system that helps researchers discover relevant academic papers u
 ---
 
 ## Features
-- **Personalization (Currently Fixing)**: Blends user preferences into retrieval scoring.  
+- **Personalization (Currently In Progress: Adding Features)**: Blends user preferences into retrieval scoring.  
 - **Semantic Search**: Indexes 1M+ arXiv papers with embeddings for natural language queries.  
 - **Vector Database (FAISS)**: Fast approximate nearest neighbor search.  
 - **MMR Re-ranking**: Improves novelty and avoids redundancy in results.  
