@@ -3,7 +3,7 @@ https://github.com/user-attachments/assets/cc557e7c-4212-414a-b76a-58437d0772ec
 
 # LLM-Powered Research Paper Recommender
 
-An interactive system that helps researchers discover relevant academic papers using **retrieval-augmented generation (RAG)**, **vector search with FAISS**, and **MMR re-ranking** for diversity. The system integrates **LLMs for explainability**, **Personalization** for tailored results using embeddings + built user profiles, and provides a simple **Streamlit demo app**.
+An interactive system that helps researchers discover relevant academic papers using *retrieval-augmented generation (RAG)*, *vector search with FAISS*, and *MMR re-ranking* for diversity. The system integrates **Personalization** for tailored results using embeddings + built user profiles, **LLMs for explainability**, and provides a simple *Streamlit demo app*.
 
 ---
 
