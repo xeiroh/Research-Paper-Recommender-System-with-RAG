@@ -31,6 +31,7 @@ An interactive system that helps researchers discover relevant academic papers u
 ---
 
 ## 📂 Project Structure
+```
 Research-Paper-Recommender-System-with-RAG/
 ├── app/
 │   ├── ui_app.py          # Streamlit frontend
@@ -49,7 +50,7 @@ Research-Paper-Recommender-System-with-RAG/
 ├── data/                  # Papers dataset (JSON/Parquet)
 ├── requirements.txt
 └── README.md
-
+```
 
 ---
 
@@ -85,5 +86,5 @@ streamlit run app/ui_app.py
 
 
 ## In Progress
-- Personalization and user handling with search history and likes/dislikes.
+- Advanced personalization and user handling with search history and likes/dislikes to create "For You" page of papers.
 - Live deployment on my domain for easy demo/testing.
