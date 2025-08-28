@@ -41,7 +41,7 @@ def render_results(items: List[Dict], explanation):
 		abstract = item.get("abstract", "(No abstract available)")
 		url_pdf = item.get("url_pdf")
 		paper_url = item.get("paper_url")
-		date = item.get("date").split()[0] if item.get("date") else "(No Date Available)"
+		date = str(item.get("date")).split()[0] if item.get("date") else "(No Date Available)"
 
 		expander_header = f"### {i+1}. [{title}]({paper_url}) | {date}" if date else f"### {i+1}. [{title}]({paper_url})"
 		with st.expander(expander_header):
