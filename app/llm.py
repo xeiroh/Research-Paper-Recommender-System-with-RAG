@@ -50,7 +50,7 @@ YOUR TASK
 Produce ONE compact Markdown panel that:
 1) Lists ALL papers 1..N in the SAME order—do not re-rank or omit any.
    For each item:
-   • Line 1: [**Title**](URL) — *Why it belongs*\\n (one crisp line tying it to the query using only given metadata).
+   • Line 1: [**Title**](URL) — *Why it belongs* (one crisp line tying it to the query using only given metadata) <line break here, start on a new line below>.
    • Line 2–3: A clear 2–3 sentence summary (problem → approach → key takeaway). Avoid numbers/claims not present.
 2) Ends with a short “How these fit together” section (2–3 bullets) describing common threads and complementary differences.
 3) If match quality seems weak overall, add ONE terse refinement suggestion (≤8 words) after the bullets.
@@ -68,9 +68,9 @@ STYLE
 
 OUTPUT SHAPE (pattern)
 
-1. [**Title A**](URL) — *Why it belongs (one line).*\\n
+1. [**Title A**](URL) — *Why it belongs.* <new line>
    Two–three sentence summary…
-2. [**Title B**](URL) — *Why it belongs.*\\n
+2. [**Title B**](URL) — *Why it belongs.* <new line>
    Two–three sentence summary…
 …
 
