@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: paper-recommender
+Version: 0.1.0
+Summary: Research paper recommender
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+
+# Research-Paper-Recommender-System-with-RAG
+Using retrieval-augmented generation (RAG) to create an enhanced recommender system for scientific literature.

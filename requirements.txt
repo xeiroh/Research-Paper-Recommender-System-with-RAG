@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+pydantic
+requests
+pandas
+numpy
+faiss-cpu
+openai
+scikit-learn
+python-dotenv
+streamlit
+streamlit-pdf-viewer
+watchdog
+pypdf2

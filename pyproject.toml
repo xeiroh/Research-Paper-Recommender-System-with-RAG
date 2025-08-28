@@ -1,0 +1,20 @@
+# pyproject.toml
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "paper-recommender"
+version = "0.1.0"
+requires-python = ">=3.10"
+description = "Research paper recommender"
+readme = "README.md"
+
+[tool.setuptools]
+# declare where to search (root)
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]   # picks up app and subpackages
+exclude = ["scripts*","tests*"]
