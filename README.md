@@ -8,11 +8,11 @@ An interactive system that helps researchers discover relevant academic papers u
 ---
 
 ## Features
+- **Personalization (Currently Fixing)**: Blends user preferences into retrieval scoring.  
 - **Semantic Search**: Indexes 1M+ arXiv papers with embeddings for natural language queries.  
 - **Vector Database (FAISS)**: Fast approximate nearest neighbor search.  
 - **MMR Re-ranking**: Improves novelty and avoids redundancy in results.  
 - **RAG with LLMs**: Provides concise rationales for why each paper was chosen.  
-- **Personalization (In Progress)**: Blends user preferences into retrieval scoring.  
 - **Streamlit UI**: Easy-to-use web demo for querying and exploring results.  
 - **FastAPI Backend (In Progress)**: Modular design for deployment and API-based usage.  
 - **Dockerized Deployment**: Container-ready for reproducibility and sharing.
