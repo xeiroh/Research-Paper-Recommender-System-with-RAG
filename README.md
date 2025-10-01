@@ -1,4 +1,11 @@
 # Demo
+
+## New UI with user logins and personalization
+<img width="1894" height="1326" alt="image" src="https://github.com/user-attachments/assets/b24a4901-8d6d-4b30-a9c4-551459aae886" />
+<img width="1894" height="1326" alt="image" src="https://github.com/user-attachments/assets/76c6fe04-34ec-4109-b223-7d4948685228" />
+
+
+## Video Demo (before adding personalization)
 https://github.com/user-attachments/assets/cc557e7c-4212-414a-b76a-58437d0772ec
 
 # LLM-Powered Research Paper Recommender
@@ -87,5 +94,5 @@ streamlit run app/ui_app.py
 ```
 
 ## In Progress
-- Advanced personalization and user handling with search history and likes/dislikes to create "For You" page of papers.
+- Advanced personalization and user handling to create "For You" page of papers.
 - Live deployment on my domain for easy demo/testing.
