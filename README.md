@@ -8,18 +8,18 @@ An interactive system that helps researchers discover relevant academic papers u
 ---
 
 ## Features
-- **Personalization (Currently In Progress: Adding Features)**: Blends user preferences into retrieval scoring.  
+- **Personalization**: Blends user preferences (search history, liked papers) into retrieval scoring.  
 - **Semantic Search**: Indexes 1M+ arXiv papers with embeddings for natural language queries.  
 - **Vector Database (FAISS)**: Fast approximate nearest neighbor search.  
 - **MMR Re-ranking**: Improves novelty and avoids redundancy in results.  
 - **RAG with LLMs**: Provides concise rationales for why each paper was chosen.  
 - **Streamlit UI**: Easy-to-use web demo for querying and exploring results.  
-- **FastAPI Backend (In Progress)**: Modular design for deployment and API-based usage.  
+- **FastAPI Backend**: Modular design for deployment and API-based usage.  
 - **Dockerized Deployment**: Container-ready for reproducibility and sharing.
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 - **Python 3.12**
 - **FAISS** for vector similarity search
 - **FastEmbed / OpenAI embeddings** for paper representation
@@ -30,7 +30,7 @@ An interactive system that helps researchers discover relevant academic papers u
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 ```
 Research-Paper-Recommender-System-with-RAG/
 ├── app/
@@ -54,7 +54,7 @@ Research-Paper-Recommender-System-with-RAG/
 
 ---
 
-## ⚙️ Setup
+## Setup
 
 ### 1. Clone the repo
 ```bash
