@@ -1,9 +1,23 @@
+#!/usr/bin/env python3
+
 import os
+import sys
+from pathlib import Path
+from typing import Dict, List
+
+if __package__:
+    from . import settings, get_faiss_index
+    from .get_pdf import get_pdf
+    from .query import search as search_papers
+else:
+    repo_root = Path(__file__).resolve().parent.parent
+    if str(repo_root) not in sys.path:
+        sys.path.insert(0, str(repo_root))
+    from app import settings, get_faiss_index
+    from app.get_pdf import get_pdf
+    from app.query import search as search_papers
+
 import streamlit as st
-from typing import List, Dict
-from app import settings, get_faiss_index
-from app.query import search as search_papers
-from app.get_pdf import get_pdf
 
 try:
 	from streamlit_pdf_viewer import pdf_viewer

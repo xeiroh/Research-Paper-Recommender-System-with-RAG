@@ -1,2 +1,6 @@
 .env
 downloads
+.DS_Store
+/data
+/.cache
+demo/recommender_demo.mp4
