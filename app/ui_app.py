@@ -44,13 +44,6 @@ st.markdown("""
         -webkit-text-fill-color: transparent;
         margin-bottom: 1rem;
     }
-    .paper-card {
-        background-color: #f8f9fa;
-        padding: 1.5rem;
-        border-radius: 10px;
-        border-left: 4px solid #667eea;
-        margin-bottom: 1rem;
-    }
     .paper-title {
         font-size: 1.25rem;
         font-weight: 600;
@@ -70,16 +63,6 @@ st.markdown("""
     .stButton>button:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    }
-    .like-button {
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        font-size: 1.5rem;
-        transition: transform 0.2s;
-    }
-    .like-button:hover {
-        transform: scale(1.2);
     }
     div[data-testid="stSidebarNav"] {
         background-color: #f8f9fa;
@@ -119,6 +102,12 @@ if "authenticated" not in st.session_state:
 
 if "page" not in st.session_state:
     st.session_state.page = "search"
+
+if "search_results" not in st.session_state:
+    st.session_state.search_results = None
+
+if "last_explanation" not in st.session_state:
+    st.session_state.last_explanation = None
 
 def login_page():
     st.markdown('<h1 class="main-header">Research Paper Recommender</h1>', unsafe_allow_html=True)
@@ -168,8 +157,6 @@ def render_paper_card(item: Dict, idx: int, show_like_button: bool = True):
     paper_url = item.get("paper_url")
     date = str(item.get("date")).split()[0] if item.get("date") else None
 
-    st.markdown('<div class="paper-card">', unsafe_allow_html=True)
-
     col1, col2 = st.columns([0.95, 0.05])
 
     with col1:
@@ -179,57 +166,59 @@ def render_paper_card(item: Dict, idx: int, show_like_button: bool = True):
             st.markdown(f'<div class="paper-title">{idx}. {title}</div>', unsafe_allow_html=True)
 
         if date:
-            st.markdown(f'<div class="paper-meta">📅 {date}</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="paper-meta">Published: {date}</div>', unsafe_allow_html=True)
 
     with col2:
         if show_like_button:
             is_liked = users.is_paper_liked(st.session_state.username, paper_url)
-            like_icon = "❤️" if is_liked else "🤍"
+            like_label = "♥" if is_liked else "♡"
 
-            if st.button(like_icon, key=f"like_{idx}_{paper_url}", help="Like this paper"):
+            if st.button(like_label, key=f"like_{idx}_{paper_url}", help="Like this paper"):
                 if is_liked:
                     users.unlike_paper(st.session_state.username, paper_url)
                 else:
                     users.like_paper(st.session_state.username, item)
                 st.rerun()
 
-    with st.expander("📄 Abstract"):
+    with st.expander("Abstract"):
         st.write(abstract)
 
-    with st.expander("🔍 View PDF"):
-        if pdf_viewer is not None and url_pdf and st.session_state.get("enable_pdf", True):
-            pdf_file = get_pdf(url_pdf)
-            if pdf_file is None:
-                st.error("Invalid PDF File; try the link instead.")
+    if url_pdf:
+        with st.expander("View PDF"):
+            if pdf_viewer is not None and st.session_state.get("enable_pdf", True):
+                pdf_file = get_pdf(url_pdf)
+                if pdf_file is None:
+                    st.error("Invalid PDF file; try the link instead.")
+                else:
+                    pdf_viewer(pdf_file, width="100%", height=600)
             else:
-                pdf_viewer(pdf_file, width="100%", height=600)
-        else:
-            if not pdf_viewer:
-                st.warning("Install streamlit-pdf-viewer to view PDFs inline: pip install streamlit-pdf-viewer")
-            if url_pdf:
+                if not pdf_viewer:
+                    st.warning("Install streamlit-pdf-viewer to view PDFs inline: pip install streamlit-pdf-viewer")
                 st.markdown(f"[Open PDF in new tab]({url_pdf})")
 
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.divider()
 
 def search_page():
-    st.markdown('<h1 class="main-header">🔬 Discover Research Papers</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">Research Paper Recommender</h1>', unsafe_allow_html=True)
 
     with st.sidebar:
         st.markdown(f"### Welcome, {st.session_state.username}!")
 
-        if st.button("🚪 Logout", use_container_width=True):
+        if st.button("Logout", use_container_width=True):
             st.session_state.authenticated = False
             st.session_state.username = None
+            st.session_state.search_results = None
+            st.session_state.last_explanation = None
             st.rerun()
 
         st.markdown("---")
 
         st.markdown("### Navigation")
-        if st.button("🔍 Search Papers", use_container_width=True, type="primary" if st.session_state.page == "search" else "secondary"):
+        if st.button("Search Papers", use_container_width=True, type="primary" if st.session_state.page == "search" else "secondary"):
             st.session_state.page = "search"
             st.rerun()
 
-        if st.button("❤️ Liked Papers", use_container_width=True, type="primary" if st.session_state.page == "liked" else "secondary"):
+        if st.button("Liked Papers", use_container_width=True, type="primary" if st.session_state.page == "liked" else "secondary"):
             st.session_state.page = "liked"
             st.rerun()
 
@@ -241,7 +230,7 @@ def search_page():
         st.session_state.llm = st.checkbox("LLM Explanations", value=True)
         st.session_state.enable_pdf = st.checkbox("Enable PDF Viewer", value=True)
 
-    query = st.text_input("🔎 Search for research papers", placeholder="e.g., graph neural networks for molecule property prediction", key="search_query")
+    query = st.text_input("Search for research papers", placeholder="e.g., graph neural networks for molecule property prediction", key="search_query")
 
     col1, col2, col3 = st.columns([1, 1, 4])
     with col1:
@@ -261,31 +250,36 @@ def search_page():
                     use_personalization=st.session_state.use_personalization
                 )
 
-            if not results:
-                st.info("No results found. Try a different query.")
-                return
-
-            if explanation:
-                st.markdown("### 📊 Analysis")
-                st.markdown(explanation)
-                st.markdown("---")
-
-            st.markdown(f"### Results ({len(results)} papers)")
-
-            for i, item in enumerate(results):
-                render_paper_card(item, i + 1, show_like_button=True)
+            st.session_state.search_results = results
+            st.session_state.last_explanation = explanation
 
         except Exception as e:
             st.error(f"Search failed: {e}")
             st.exception(e)
+            st.session_state.search_results = None
+            st.session_state.last_explanation = None
+
+    if st.session_state.search_results:
+        results = st.session_state.search_results
+        explanation = st.session_state.last_explanation
+
+        if explanation:
+            st.markdown("### Analysis")
+            st.markdown(explanation)
+            st.markdown("---")
+
+        st.markdown(f"### Results ({len(results)} papers)")
+
+        for i, item in enumerate(results):
+            render_paper_card(item, i + 1, show_like_button=True)
 
 def liked_papers_page():
-    st.markdown('<h1 class="main-header">❤️ Your Liked Papers</h1>', unsafe_allow_html=True)
+    st.markdown('<h1 class="main-header">Your Liked Papers</h1>', unsafe_allow_html=True)
 
     with st.sidebar:
         st.markdown(f"### Welcome, {st.session_state.username}!")
 
-        if st.button("🚪 Logout", use_container_width=True):
+        if st.button("Logout", use_container_width=True):
             st.session_state.authenticated = False
             st.session_state.username = None
             st.rerun()
@@ -293,11 +287,11 @@ def liked_papers_page():
         st.markdown("---")
 
         st.markdown("### Navigation")
-        if st.button("🔍 Search Papers", use_container_width=True, type="primary" if st.session_state.page == "search" else "secondary"):
+        if st.button("Search Papers", use_container_width=True, type="primary" if st.session_state.page == "search" else "secondary"):
             st.session_state.page = "search"
             st.rerun()
 
-        if st.button("❤️ Liked Papers", use_container_width=True, type="primary" if st.session_state.page == "liked" else "secondary"):
+        if st.button("Liked Papers", use_container_width=True, type="primary" if st.session_state.page == "liked" else "secondary"):
             st.session_state.page = "liked"
             st.rerun()
 
@@ -307,7 +301,7 @@ def liked_papers_page():
     liked_papers = users.get_liked_papers(st.session_state.username)
 
     if not liked_papers:
-        st.info("You haven't liked any papers yet. Search for papers and click the ❤️ button to save them here!")
+        st.info("You haven't liked any papers yet. Search for papers and click the like button to save them here.")
         return
 
     st.markdown(f"### You have {len(liked_papers)} liked papers")

@@ -25,7 +25,7 @@ max_retries = 2   # small, constant retry count
 embed_model = "text-embedding-3-small"
 
 def get_client():
-	return OpenAI(api_key=API_KEY, base_url=getattr(settings, 'openai_base_url', None) or None)
+	return OpenAI(api_key=API_KEY, base_url=getattr(settings, 'openai_base_url', None) or None, timeout=120.0)
 
 def create_embeddings(data, model=embed_model, use_cache=True, batch_size=batch_size, rpm=rpm, max_retries=max_retries):
 	"""
@@ -46,7 +46,7 @@ def create_embeddings(data, model=embed_model, use_cache=True, batch_size=batch_
 		print(f"Resuming from {start} cached embeddings from {cache_path}")
 
 
-	client = OpenAI(api_key=API_KEY, base_url=getattr(settings, 'openai_base_url', None) or None)
+	client = OpenAI(api_key=API_KEY, base_url=getattr(settings, 'openai_base_url', None) or None, timeout=120.0)
 	texts = data["content"].tolist()
 
 	def _interval(rpm):
@@ -102,6 +102,6 @@ def create_embeddings(data, model=embed_model, use_cache=True, batch_size=batch_
 
 
 def get_query_embedding(query, model=embed_model, api_key=API_KEY):
-	client = OpenAI(api_key=api_key, base_url=getattr(settings, 'openai_base_url', None) or None)
+	client = OpenAI(api_key=api_key, base_url=getattr(settings, 'openai_base_url', None) or None, timeout=60.0)
 	resp = client.embeddings.create(model=model, input=query)
 	return np.array(resp.data[0].embedding, dtype=np.float32)
